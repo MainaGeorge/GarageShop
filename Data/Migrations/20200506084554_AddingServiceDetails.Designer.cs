@@ -4,14 +4,16 @@ using GarageShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GarageShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200506084554_AddingServiceDetails")]
+    partial class AddingServiceDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,36 +59,6 @@ namespace GarageShop.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Car");
-                });
-
-            modelBuilder.Entity("GarageShop.Models.PaymentDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("Amount")
-                        .IsRequired()
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Currency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("PaymentDetails");
                 });
 
             modelBuilder.Entity("GarageShop.Models.ServiceDetails", b =>
@@ -147,28 +119,6 @@ namespace GarageShop.Data.Migrations
                     b.HasIndex("CarId");
 
                     b.ToTable("ServiceHeader");
-                });
-
-            modelBuilder.Entity("GarageShop.Models.ServiceShoppingCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("ServiceTypeId");
-
-                    b.ToTable("ServiceShoppingCart");
                 });
 
             modelBuilder.Entity("GarageShop.Models.ServiceType", b =>
@@ -422,13 +372,6 @@ namespace GarageShop.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("GarageShop.Models.PaymentDetails", b =>
-                {
-                    b.HasOne("GarageShop.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-                });
-
             modelBuilder.Entity("GarageShop.Models.ServiceDetails", b =>
                 {
                     b.HasOne("GarageShop.Models.ServiceHeader", "ServiceHeader")
@@ -449,21 +392,6 @@ namespace GarageShop.Data.Migrations
                     b.HasOne("GarageShop.Models.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GarageShop.Models.ServiceShoppingCart", b =>
-                {
-                    b.HasOne("GarageShop.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GarageShop.Models.ServiceType", "ServiceType")
-                        .WithMany()
-                        .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
